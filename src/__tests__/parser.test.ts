@@ -2,9 +2,7 @@ import { parseRoutes } from '../parser';
 
 describe('route parser tests', () => {
   it('should parse route', () => {
-    const routes = [
-      { route: '/home/{name}/workouts'}
-    ];
+    const routes = [{ route: '/home/{name}/workouts' }];
     const root = parseRoutes(routes);
 
     expect(root).toBeDefined();
@@ -23,10 +21,7 @@ describe('route parser tests', () => {
   });
 
   it('should not duplicate routes', () => {
-    const routes = [
-      { route: '/home/name'},
-      { route: '/home/name'}
-    ];
+    const routes = [{ route: '/home/name' }, { route: '/home/name' }];
     const root = parseRoutes(routes);
 
     expect(root).toBeDefined();
@@ -35,10 +30,7 @@ describe('route parser tests', () => {
   });
 
   it('should parse multiple routes', () => {
-    const routes = [
-      { route: '/home/name'},
-      { route: '/home/name2'}
-    ];
+    const routes = [{ route: '/home/name' }, { route: '/home/name2' }];
     const root = parseRoutes(routes);
 
     expect(root).toBeDefined();
@@ -49,9 +41,7 @@ describe('route parser tests', () => {
   });
 
   it('should parse queryParams correctly', () => {
-    const routes = [
-      { route: '/home', queryParameters: ['id', 'name']}
-    ];
+    const routes = [{ route: '/home', queryParameters: ['id', 'name'] }];
     const root = parseRoutes(routes);
 
     expect(root).toBeDefined();

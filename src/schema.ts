@@ -12,9 +12,8 @@ export const exampleRoutes: IUserDefinedRoute[] = [
   { route: '/auth/register' },
   { route: '/profile', queryParameters: ['id'] },
   { route: '/profile/dashboard' },
-  { route: '/profile/dashboard/today' }
-]
-
+  { route: '/profile/dashboard/today' },
+];
 
 /*
   Rules for route string:
@@ -22,4 +21,3 @@ export const exampleRoutes: IUserDefinedRoute[] = [
     a route that is an inpute is enclosed within '{''}'
     a route is an end state if it is the last segment
  */
-
