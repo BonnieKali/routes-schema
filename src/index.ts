@@ -1,5 +1,6 @@
 import { parseRoutes, printTree } from './parser';
 import { run } from './generator.compiler';
+import { RouteSegment } from './route-segment';
 
 const routes = [
   { route: '/home/{userId}/workout/{workoutId}', queryParameters: ['name', 'location'] },
