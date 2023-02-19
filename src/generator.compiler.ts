@@ -42,21 +42,21 @@ function createMethod(classDeclaration: ClassDeclaration, functionDefinition: IF
   });
 }
 
-interface ICustomMethod {
+export interface ICustomMethod {
   name: string;
-  returnType: string;
+  returnType?: string;
   args: string[];
 }
-interface ICustomClass {
+export interface ICustomClass {
+  superClass?: string;
   name: string;
-  constructor: ICustomMethod;
-  customMethods: ICustomMethod;
+  methods: ICustomMethod[];
 }
-interface ICustomNamespace {
+export interface ICustomNamespace {
   name: string;
   customSegmentStructures: ICustomSegmentStructure[];
 }
-interface ICustomSegmentStructure {
+export interface ICustomSegmentStructure {
   class: ICustomClass;
   namespace: ICustomNamespace;
 }

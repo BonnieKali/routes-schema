@@ -1,6 +1,6 @@
 import { IUserDefinedRoute } from './schema';
 
-interface ISegmentNode {
+export interface ISegmentNode {
   name: string;
   children: ISegmentNode[];
   queryParams?: string[];
@@ -9,7 +9,7 @@ interface ISegmentNode {
   isPathVariable(): boolean;
 }
 
-class SegmentNode implements ISegmentNode {
+export class SegmentNode implements ISegmentNode {
   name: string;
   children: SegmentNode[];
   queryParams?: string[];
