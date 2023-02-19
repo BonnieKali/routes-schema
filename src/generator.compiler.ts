@@ -7,7 +7,7 @@ import {
   SourceFile,
 } from 'ts-morph';
 
-export function run(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
+export function generate(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
   const project = new Project();
   const sourceFile = project.createSourceFile(outputFile, undefined, { overwrite: true });
 

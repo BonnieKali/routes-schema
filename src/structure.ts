@@ -14,7 +14,7 @@ export interface IStructureNode {
   readonly queryParams?: string[];
 }
 
-export function mapToStructureNode(node: ISegmentNode, previousAbsoluteType: string = ''): IStructureNode {
+export function mapToStructureTree(node: ISegmentNode, previousAbsoluteType: string = ''): IStructureNode {
   const className = formatClassName(node.name);
   const absoluteType = formatAbsoluteType(previousAbsoluteType, className);
 
@@ -25,7 +25,7 @@ export function mapToStructureNode(node: ISegmentNode, previousAbsoluteType: str
     absoluteType: absoluteType,
     isEndState: node.isEndState(),
     isPathVariable: node.isPathVariable(),
-    children: node.children.map((child) => mapToStructureNode(child, absoluteType)),
+    children: node.children.map((child) => mapToStructureTree(child, absoluteType)),
     queryParams: node.queryParams,
   };
 }

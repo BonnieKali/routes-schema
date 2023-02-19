@@ -1,5 +1,5 @@
 import { SegmentNode } from '../parser';
-import { mapToStructureNode, ROOT_CLASS_NAME } from '../structure';
+import { mapToStructureTree, ROOT_CLASS_NAME } from '../structure';
 
 describe('structure', () => {
   it('should construct StructureNode tree', () => {
@@ -25,7 +25,7 @@ describe('structure', () => {
     child6.markEndState();
 
     // When
-    const structureTree = mapToStructureNode(root);
+    const structureTree = mapToStructureTree(root);
 
     // Then
     expect(structureTree.segmentName).toBe('');

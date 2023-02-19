@@ -1,6 +1,6 @@
 import { parseRoutes, printTree } from './parser';
-import { run } from './generator.compiler';
-import { mapToStructureNode } from './structure';
+import { generate } from './generator.compiler';
+import { mapToStructureTree } from './structure';
 import { composeSchema } from './structure-composer';
 
 const routes = [
@@ -19,7 +19,8 @@ const routes = [
 const segmentTree = parseRoutes(routes);
 printTree(segmentTree);
 
-const structureTree = mapToStructureNode(segmentTree);
-const customSegmentStructure = composeSchema(structureTree);
+const structureTree = mapToStructureTree(segmentTree);
+const schema = composeSchema(structureTree);
+generate(schema, 'src/generated/generated.ts');
 
 run(customSegmentStructure, 'src/generated/generated.ts');
