@@ -2,7 +2,6 @@
 
 ### Fixes
 
-- Make `.build()` only accessible to end states
 - Remove `Routes` path from root
 
 ### Further development

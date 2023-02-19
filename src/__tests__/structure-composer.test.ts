@@ -72,7 +72,7 @@ describe('structure-composer', () => {
     const child3Class = child1Namespace.customSegmentStructures[0].class;
     const child3Namespace = child1Namespace.customSegmentStructures[0].namespace;
     expect(child3Class.name).toBe('Child3');
-    expect(child3Class.superClass).toBe('RouteSegment');
+    expect(child3Class.superClass).toBe('EndStateRouteSegment');
     expect(child3Class.methods.length).toBe(0);
     expect(child3Namespace.name).toBe('Child3');
     expect(child3Namespace.customSegmentStructures.length).toBe(0);
@@ -80,7 +80,7 @@ describe('structure-composer', () => {
     const child2Class = rootNamespace.customSegmentStructures[1].class;
     const child2Namespace = rootNamespace.customSegmentStructures[1].namespace;
     expect(child2Class.name).toBe('SecondChild');
-    expect(child2Class.superClass).toBe('RouteSegment');
+    expect(child2Class.superClass).toBe('EndStateRouteSegment');
     expect(child2Class.methods.length).toBe(0);
     expect(child2Namespace.name).toBe('SecondChild');
     expect(child2Namespace.customSegmentStructures.length).toBe(0);
