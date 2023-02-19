@@ -1,6 +1,7 @@
 import { parseRoutes, printTree } from './parser';
 import { run } from './generator.compiler';
-import { RouteSegment } from './route-segment';
+import { mapToStructureNode } from './structure';
+import { composeSchema } from './structure-composer';
 
 const routes = [
   { route: '/home/{userId}/workout/{workoutId}', queryParameters: ['name', 'location'] },
@@ -17,4 +18,8 @@ const routes = [
 
 const segmentTree = parseRoutes(routes);
 printTree(segmentTree);
-run();
+
+const structureTree = mapToStructureNode(segmentTree);
+const customSegmentStructure = composeSchema(structureTree);
+
+run(customSegmentStructure, 'src/generated/generated.ts');
