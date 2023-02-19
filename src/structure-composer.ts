@@ -1,6 +1,6 @@
 import { ICustomClass, ICustomMethod, ICustomNamespace, ICustomSegmentStructure } from './generator.compiler';
 import { IStructureNode } from './structure';
-import { RouteSegment } from './models';
+import { EndStateRouteSegment, RouteSegment } from './models';
 
 export function composeSchema(root: IStructureNode): ICustomSegmentStructure {
   return mapToCustomSegmentStructure(root);
@@ -22,7 +22,7 @@ function mapToCustomNamespace(node: IStructureNode): ICustomNamespace {
 
 function mapToCustomClass(node: IStructureNode): ICustomClass {
   return {
-    superClass: RouteSegment.name,
+    superClass: node.isEndState ? EndStateRouteSegment.name : RouteSegment.name,
     name: node.className,
     methods: collectMethods(node),
   };
