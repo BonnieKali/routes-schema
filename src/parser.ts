@@ -58,8 +58,9 @@ export function parseRoutes(routes: IUserDefinedRoute[]): SegmentNode {
 }
 
 function attachRoute(route: IUserDefinedRoute, root: SegmentNode) {
-  const routeSegments = route.route.split("/").filter((segment) => !!segment);
-
+  const routeSegments = route.route.split('/').filter((segment) => !!segment);
+  const a = 'a';
+  console.log(a);
 
   let lastVisitedNode = root;
   for (const routeSegment of routeSegments) {
