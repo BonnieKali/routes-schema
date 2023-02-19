@@ -1,0 +1,9 @@
+name: "Lint"
+description: "Perform linting"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Lint
+      shell: bash
+      run: export TERM_COLOR=16m && npm run lint
