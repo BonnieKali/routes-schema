@@ -16,8 +16,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
-    "start": "nodemon --exec ts-node src/index.ts",
-    "start-dev": "npx nodemon",
+    "start": "npx nodemon",
     "build": "tsc"
   },
   "devDependencies": {
