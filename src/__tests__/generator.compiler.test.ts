@@ -8,7 +8,14 @@ import {
   ICustomNamespace,
   ICustomSegmentStructure,
 } from '../generator.compiler';
-import { ClassDeclaration, MethodDeclaration, ModuleDeclaration, ModuleDeclarationKind, Project } from 'ts-morph';
+import {
+  ClassDeclaration,
+  MethodDeclaration,
+  ModuleDeclaration,
+  ModuleDeclarationKind,
+  Project,
+  SourceFile,
+} from 'ts-morph';
 
 const project = new Project();
 const sourceFile = project.createSourceFile(`/Users/james/IdeaProjects/routes-schema/src/file.ts`);
@@ -134,7 +141,11 @@ describe('create namespaces', () => {
 });
 
 describe('creating Routes ', () => {
-  const sourceFile = project.createSourceFile(`/Users/james/IdeaProjects/routes-schema/src/route-classes.ts`);
+  let sourceFile: SourceFile;
+
+  beforeEach(() => {
+    sourceFile = project.createSourceFile(`route-classes.ts`, undefined, { overwrite: true });
+  });
 
   it('should create a simple routes file', () => {
     const classDefinition: ICustomClass = {
@@ -154,9 +165,9 @@ describe('creating Routes ', () => {
     const file = createRoutes(sourceFile, segmentStructure);
     expect(file.getStructure().statements).toHaveLength(2);
     // @ts-ignore
-    expect(namespaceDeclaration.getStructure().statements[0].kind).toEqual(2); // class def
+    expect(file.getStructure().statements[0].kind).toEqual(2); // class def
     // @ts-ignore
-    expect(namespaceDeclaration.getStructure().statements[1].kind).toEqual(29); // namespace def
+    expect(file.getStructure().statements[1].kind).toEqual(29); // namespace def
   });
 
   it('should create a nested routes file', () => {
