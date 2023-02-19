@@ -2,7 +2,7 @@ export abstract class RouteSegment {
   protected path: string;
 
   constructor(private previousSegment?: RouteSegment) {
-    this.path = ((<any>this).constructor.name as string).toLowerCase();
+    this.path = ((this as any).constructor.name as string).toLowerCase();
   }
 
   public build(): string {

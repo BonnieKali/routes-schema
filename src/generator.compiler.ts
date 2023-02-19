@@ -4,7 +4,6 @@ import {
   ModuleDeclaration,
   ModuleDeclarationKind,
   Project,
-  Scope,
   SourceFile,
 } from 'ts-morph';
 
@@ -14,7 +13,7 @@ export function run() {
 
   const classDefinition2: ICustomClass = {
     name: 'CustomClass2',
-    customMethods: [],
+    methods: [],
     classConstructor: undefined,
   };
   const customNamespaceForClass2: ICustomNamespace = {
@@ -28,7 +27,7 @@ export function run() {
 
   const classDefinition1: ICustomClass = {
     name: 'CustomClass1',
-    customMethods: [],
+    methods: [],
     classConstructor: undefined,
   };
   const customNamespaceForClass1: ICustomNamespace = {
@@ -76,8 +75,8 @@ export function createClass(moduleDeclaration: ModuleDeclaration | SourceFile, c
   const classDeclaration = moduleDeclaration.addClass({
     name: classDefinition.name,
   });
-  if (classDefinition.parentClass?.name) {
-    classDeclaration.setExtends(classDefinition.parentClass?.name);
+  if (classDefinition.superClass) {
+    classDeclaration.setExtends(classDefinition.superClass);
   }
   if (classDefinition.classConstructor) {
     const con = classDeclaration.addConstructor();
@@ -116,8 +115,8 @@ export function createSegmentStructure(
   moduleDeclaration: ModuleDeclaration | SourceFile,
   segmentStructure: ICustomSegmentStructure,
 ) {
-  const classDeclaration = createClass(moduleDeclaration, segmentStructure.class);
-  const namespaceDeclaration = createNamespace(moduleDeclaration, segmentStructure.namespace);
+  createClass(moduleDeclaration, segmentStructure.class);
+  createNamespace(moduleDeclaration, segmentStructure.namespace);
 }
 
 export interface ICustomMethod {
@@ -127,9 +126,9 @@ export interface ICustomMethod {
 }
 export interface ICustomClass {
   name: string;
-  customMethods: ICustomMethod[];
+  methods: ICustomMethod[];
   classConstructor?: ICustomMethod;
-  parentClass?: ICustomClass;
+  superClass?: string;
 }
 export interface ICustomNamespace {
   name: string;

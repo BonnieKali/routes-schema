@@ -52,22 +52,36 @@ describe('creating valid functions', () => {
 describe('creating valid classes', () => {
   const parentClass: ICustomClass = {
     name: 'ParentClass',
-    customMethods: [],
+    methods: [],
     classConstructor: undefined,
   };
 
   it('should create a valid class with no functions and no constructor', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClass',
-      parentClass,
-      customMethods: [],
+      superClass: parentClass.name,
+      methods: [],
       classConstructor: undefined,
     };
 
     const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
 
     expect(classDeclaration.getName()).toBe(classDefinition.name);
-    expect(classDeclaration.print()).toContain(`extends ${classDefinition.parentClass?.name}`);
+    expect(classDeclaration.print()).toContain(`extends ${classDefinition.superClass}`);
+    expect(classDeclaration.getMethods()).toHaveLength(0);
+  });
+
+  it('should create a valid class without superclass', () => {
+    const classDefinition: ICustomClass = {
+      name: 'CustomClass',
+      methods: [],
+      classConstructor: undefined,
+    };
+
+    const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
+
+    expect(classDeclaration.getName()).toBe(classDefinition.name);
+    expect(classDeclaration.print()).not.toContain(`extends`);
     expect(classDeclaration.getMethods()).toHaveLength(0);
   });
 });
@@ -89,7 +103,7 @@ describe('create namespaces', () => {
   it('should create a valid namespace with a single segment structure', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClassNamespace',
-      customMethods: [],
+      methods: [],
       classConstructor: undefined,
     };
     const customNamespaceForClass: ICustomNamespace = {
@@ -125,7 +139,7 @@ describe('creating Routes ', () => {
   it('should create a simple routes file', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClassWithNamespace',
-      customMethods: [],
+      methods: [],
       classConstructor: undefined,
     };
     const customNamespaceForClass: ICustomNamespace = {
@@ -148,7 +162,7 @@ describe('creating Routes ', () => {
   it('should create a nested routes file', () => {
     const classDefinition2: ICustomClass = {
       name: 'CustomClass2',
-      customMethods: [],
+      methods: [],
       classConstructor: undefined,
     };
     const customNamespaceForClass2: ICustomNamespace = {
@@ -162,7 +176,7 @@ describe('creating Routes ', () => {
 
     const classDefinition1: ICustomClass = {
       name: 'CustomClass1',
-      customMethods: [],
+      methods: [],
       classConstructor: undefined,
     };
     const customNamespaceForClass1: ICustomNamespace = {
