@@ -1,6 +1,9 @@
-import { parseRoutes, printTree } from './parser';
+export interface IUserDefinedRoute {
+  route: string;
+  queryParameters?: string[];
+}
 
-const routes = [
+export const exampleRoutes: IUserDefinedRoute[] = [
   { route: '/home/{userId}/workout/{workoutId}', queryParameters: ['name', 'location'] },
   { route: '/', queryParameters: [] },
   { route: '/home/userId' },
@@ -9,9 +12,14 @@ const routes = [
   { route: '/auth/register' },
   { route: '/profile', queryParameters: ['id'] },
   { route: '/profile/dashboard' },
-  { route: '/profile/dashboard/today' },
   { route: '/profile/dashboard/today' }
-];
+]
 
-const segmentTree = parseRoutes(routes);
-printTree(segmentTree);
+
+/*
+  Rules for route string:
+    the routes are split by '/'
+    a route that is an inpute is enclosed within '{''}'
+    a route is an end state if it is the last segment
+ */
+
