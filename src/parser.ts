@@ -36,7 +36,7 @@ class SegmentNode implements ISegmentNode {
   }
 
   private determineName(name: string): string {
-    return name.replace(/[{}]/g, "")
+    return name.replace(/[{}]/g, '');
   }
 
   private determineIsPathVariable(name: string): boolean {
@@ -45,26 +45,24 @@ class SegmentNode implements ISegmentNode {
 
   prettyString(): string {
     const pathVariableIdentifier = this.isPathVariable() ? ':' : '';
-    const endState = this.isEndState() ?  '=|' : '';
+    const endState = this.isEndState() ? '=|' : '';
     const queryParams = this.queryParams ? ` ?[${this.queryParams.join(',')}]` : '';
     return `${pathVariableIdentifier}${this.name}${endState}${queryParams}`;
   }
 }
 
-
 export function parseRoutes(routes: IUserDefinedRoute[]): SegmentNode {
   const root = new SegmentNode('');
-  routes.forEach(route => attachRoute(route, root));
+  routes.forEach((route) => attachRoute(route, root));
   return root;
 }
 
-
 function attachRoute(route: IUserDefinedRoute, root: SegmentNode) {
-  const routeSegments = route.route.split('/').filter(segment => !!segment);
+  const routeSegments = route.route.split('/').filter((segment) => !!segment);
 
   let lastVisitedNode = root;
-  for (let routeSegment of routeSegments) {
-    let existingChildNode = lastVisitedNode.children.find(child => child.name === routeSegment);
+  for (const routeSegment of routeSegments) {
+    const existingChildNode = lastVisitedNode.children.find((child) => child.name === routeSegment);
 
     if (existingChildNode) {
       lastVisitedNode = existingChildNode;
@@ -84,15 +82,13 @@ function attachRoute(route: IUserDefinedRoute, root: SegmentNode) {
   return root;
 }
 
-
 /**
  * Prints the tree in a human-readable format
  */
 export function printTree(tree: SegmentNode, level: number = 0) {
   console.log(`${'- '.repeat(level)}${tree.prettyString()}`);
 
-  for (let child of tree.children) {
+  for (const child of tree.children) {
     printTree(child, level + 1);
   }
 }
-

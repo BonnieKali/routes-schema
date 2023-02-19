@@ -10,7 +10,7 @@ const routes = [
   { route: '/profile', queryParameters: ['id'] },
   { route: '/profile/dashboard' },
   { route: '/profile/dashboard/today' },
-  { route: '/profile/dashboard/today' }
+  { route: '/profile/dashboard/today' },
 ];
 
 const segmentTree = parseRoutes(routes);

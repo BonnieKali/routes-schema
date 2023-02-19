@@ -1,0 +1,9 @@
+name: "Run Tests"
+description: "Run unit and integration tests"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Tests
+      shell: bash
+      run: export TERM_COLOR=16m && npm run test
