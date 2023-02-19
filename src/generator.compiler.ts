@@ -7,39 +7,11 @@ import {
   SourceFile,
 } from 'ts-morph';
 
-export function run() {
+export function run(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
   const project = new Project();
-  const sourceFile = project.createSourceFile(`/Users/james/IdeaProjects/routes-schema/src/file.ts`);
+  const sourceFile = project.createSourceFile(outputFile, undefined, { overwrite: true });
 
-  const classDefinition2: ICustomClass = {
-    name: 'CustomClass2',
-    methods: [],
-    classConstructor: undefined,
-  };
-  const customNamespaceForClass2: ICustomNamespace = {
-    name: 'CustomNamespace2',
-    customSegmentStructures: [],
-  };
-  const segmentStructure2: ICustomSegmentStructure = {
-    class: classDefinition2,
-    namespace: customNamespaceForClass2,
-  };
-
-  const classDefinition1: ICustomClass = {
-    name: 'CustomClass1',
-    methods: [],
-    classConstructor: undefined,
-  };
-  const customNamespaceForClass1: ICustomNamespace = {
-    name: 'CustomNamespace1',
-    customSegmentStructures: [segmentStructure2],
-  };
-  const segmentStructure1: ICustomSegmentStructure = {
-    class: classDefinition1,
-    namespace: customNamespaceForClass1,
-  };
-
-  const file = createRoutes(sourceFile, segmentStructure1);
+  const file = createRoutes(sourceFile, customSegmentStructure);
   file.formatText();
   // tslint:disable-next-line:no-console
   console.log(file.getText());
@@ -90,6 +62,8 @@ export function createClass(moduleDeclaration: ModuleDeclaration | SourceFile, c
     );
     con.setBodyText('super();');
   }
+  classDeclaration.setIsExported(true);
+  classDefinition.methods.forEach((method) => createMethod(classDeclaration, method));
   return classDeclaration;
 }
 
@@ -106,6 +80,7 @@ export function createNamespace(
     name: namespaceDefinition.name,
   });
   namespaceDeclaration.setDeclarationKind(ModuleDeclarationKind.Namespace);
+  namespaceDeclaration.setIsExported(true);
 
   namespaceDefinition.customSegmentStructures.forEach((seg) => createSegmentStructure(namespaceDeclaration, seg));
   return namespaceDeclaration;

@@ -15,9 +15,11 @@ export abstract class RouteSegment {
     return path;
   }
 
-  static from(routeSegment: RouteSegment) {
+  static from(routeSegment: RouteSegment, pathName?: string) {
     const instance = Object.create(this.prototype);
-    return new instance.constructor(routeSegment);
+    const newInstance = new instance.constructor(routeSegment);
+    newInstance.path = pathName ?? newInstance.path;
+    return newInstance;
   }
 
   buildMethod<T extends RouteSegment>(t: any): T {

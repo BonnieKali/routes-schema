@@ -42,9 +42,6 @@ function formatMethodName(name: string) {
 }
 
 function formatAbsoluteType(previousAbsoluteType: string, className: string) {
-  if (className === ROOT_CLASS_NAME) {
-    return '';
-  }
   if (!previousAbsoluteType) {
     return className;
   }
