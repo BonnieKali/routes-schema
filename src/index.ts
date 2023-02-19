@@ -1,4 +1,5 @@
 import { parseRoutes, printTree } from './parser';
+import { run } from './generator.compiler';
 
 const routes = [
   { route: '/home/{userId}/workout/{workoutId}', queryParameters: ['name', 'location'] },
@@ -15,3 +16,4 @@ const routes = [
 
 const segmentTree = parseRoutes(routes);
 printTree(segmentTree);
+run();
