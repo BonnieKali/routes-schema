@@ -21,8 +21,4 @@ export abstract class RouteSegment {
     newInstance.path = pathName ?? newInstance.path;
     return newInstance;
   }
-
-  buildMethod<T extends RouteSegment>(t: any): T {
-    return t.from(this);
-  }
 }

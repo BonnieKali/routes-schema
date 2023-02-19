@@ -22,5 +22,3 @@ printTree(segmentTree);
 const structureTree = mapToStructureTree(segmentTree);
 const schema = composeSchema(structureTree);
 generate(schema, 'src/generated/generated.ts');
-
-run(customSegmentStructure, 'src/generated/generated.ts');
