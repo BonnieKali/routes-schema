@@ -38,7 +38,7 @@ function formatClassName(name: string) {
 }
 
 function formatMethodName(name: string) {
-  return new StringUtils(name).hyphenatedToCamelCase().underscoreToCamelCase().toString();
+  return new StringUtils(name).hyphenatedToCamelCase().underscoreToCamelCase().lowercaseFirstLetter().toString();
 }
 
 function formatAbsoluteType(previousAbsoluteType: string, className: string) {

@@ -8,15 +8,20 @@ export class StringUtils {
     return this;
   }
 
+  underscoreToCamelCase(): this {
+    this.str = this.str.replace(/_([a-z])/g, (g) => {
+      return g[1].toUpperCase();
+    });
+    return this;
+  }
+
   capitalizeFirstLetter(): this {
     this.str = this.str.charAt(0).toUpperCase() + this.str.slice(1);
     return this;
   }
 
-  underscoreToCamelCase(): this {
-    this.str = this.str.replace(/_([a-z])/g, (g) => {
-      return g[1].toUpperCase();
-    });
+  lowercaseFirstLetter(): this {
+    this.str = this.str.charAt(0).toLowerCase() + this.str.slice(1);
     return this;
   }
 

@@ -1,7 +1,7 @@
 export abstract class RouteSegment {
   protected path: string;
 
-  constructor(private previousSegment?: RouteSegment) {
+  protected constructor(private previousSegment?: RouteSegment) {
     this.path = ((this as any).constructor.name as string).toLowerCase();
   }
 
@@ -9,7 +9,7 @@ export abstract class RouteSegment {
     return this.path;
   }
 
-  static from(routeSegment: RouteSegment, pathName?: string) {
+  static from(routeSegment?: RouteSegment, pathName?: string) {
     const instance = Object.create(this.prototype);
     const newInstance = new instance.constructor(routeSegment);
     newInstance.path = pathName ?? newInstance.path;
@@ -21,9 +21,12 @@ export abstract class EndStateRouteSegment extends RouteSegment {
   public build(): string {
     let path = '';
     let currentRouteSegment: RouteSegment | undefined | any = this;
-    while (currentRouteSegment) {
+    while (currentRouteSegment.previousSegment) {
       path = '/' + currentRouteSegment.path + path;
       currentRouteSegment = currentRouteSegment.previousSegment;
+    }
+    if (path === '') {
+      return '/';
     }
     return path;
   }
