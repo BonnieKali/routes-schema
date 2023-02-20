@@ -10,11 +10,9 @@ import {
 export function generate(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
   const project = new Project();
   const sourceFile = project.createSourceFile(outputFile, undefined, { overwrite: true });
-  const importLocation = '../models';
 
   const file = createRoutes(sourceFile, customSegmentStructure);
-  addImport(file, 'RouteSegment', importLocation);
-  addImport(file, 'EndStateRouteSegment', importLocation);
+  addImportsIntoSourceFile(file);
 
   file.formatText();
   // tslint:disable-next-line:no-console
@@ -22,9 +20,18 @@ export function generate(customSegmentStructure: ICustomSegmentStructure, output
   file.save();
 }
 
-function addImport(sourceFile: SourceFile, clazz: string, location: string) {
+export function addImportsIntoSourceFile(sourceFile: SourceFile) {
+  const importLocation = '../models';
+  const classNames = ['RouteSegment', 'EndStateRouteSegment'];
+  addImport(sourceFile, classNames, importLocation);
+  return sourceFile;
+}
+
+function addImport(sourceFile: SourceFile, classNames: string[], location: string) {
   sourceFile.addImportDeclaration({
-    namedImports: [{ name: clazz }],
+    namedImports: classNames.map((name) => {
+      return { name };
+    }),
     moduleSpecifier: location,
   });
 }

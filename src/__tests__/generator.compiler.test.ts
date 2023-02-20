@@ -1,4 +1,5 @@
 import {
+  addImportsIntoSourceFile,
   createClass,
   createMethod,
   createNamespace,
@@ -226,6 +227,27 @@ describe('creating Routes ', () => {
     // nesting layer 3 should be empty
     const namespace2 = namespace1.statements[1];
     expect(namespace2.statements).toHaveLength(0);
+  });
+});
+
+describe('importing classes ', () => {
+  let sourceFile: SourceFile;
+
+  beforeEach(() => {
+    sourceFile = project.createSourceFile(`route-classes.ts`, undefined, { overwrite: true });
+  });
+
+  it('should import RouteSegment and EndStateRouteSegment', () => {
+    const file = addImportsIntoSourceFile(sourceFile);
+
+    expect(file.getImportStringLiterals()).toHaveLength(1);
+    expect(file.getImportStringLiterals()[0].getLiteralValue()).toEqual('../models');
+
+    expect(file.getImportDeclarations()).toHaveLength(1);
+    expect(file.getImportDeclarations()[0].getNamedImports()).toHaveLength(2);
+    expect(file.getImportDeclarations()[0].getNamedImports()[0].getName()).toEqual('RouteSegment');
+    expect(file.getImportDeclarations()[0].getNamedImports()[1].getName()).toEqual('EndStateRouteSegment');
+    expect(file.getImportDeclarations()[0].getKindName());
   });
 });
 
