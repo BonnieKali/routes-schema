@@ -2,6 +2,7 @@
 
 ### Further development
 
+- withQueryParam should accept type/enum of accepted params defined in the schema.
 - Add verification step for user-defined routes.
   Create dictionary of all accessible methods from out models class and check for collisions after
   running them through the format method.
