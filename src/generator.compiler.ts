@@ -10,12 +10,23 @@ import {
 export function generate(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
   const project = new Project();
   const sourceFile = project.createSourceFile(outputFile, undefined, { overwrite: true });
+  const importLocation = '../models';
 
   const file = createRoutes(sourceFile, customSegmentStructure);
+  addImport(file, 'RouteSegment', importLocation);
+  addImport(file, 'EndStateRouteSegment', importLocation);
+
   file.formatText();
   // tslint:disable-next-line:no-console
   console.log(file.getText());
   file.save();
+}
+
+function addImport(sourceFile: SourceFile, clazz: string, location: string) {
+  sourceFile.addImportDeclaration({
+    namedImports: [{ name: clazz }],
+    moduleSpecifier: location,
+  });
 }
 
 export function createMethod(classDeclaration: ClassDeclaration, methodDefinition: ICustomMethod): MethodDeclaration {
