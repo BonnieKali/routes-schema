@@ -1,6 +1,7 @@
 import {
   addImportsIntoSourceFile,
   createClass,
+  createExportedVariable,
   createMethod,
   createNamespace,
   createRoutes,
@@ -17,6 +18,7 @@ import {
   Project,
   SourceFile,
 } from 'ts-morph';
+import * as models from '../models';
 
 const project = new Project();
 const sourceFile = project.createSourceFile(`/Users/james/IdeaProjects/routes-schema/src/file.ts`);
@@ -61,7 +63,6 @@ describe('creating valid classes', () => {
   const parentClass: ICustomClass = {
     name: 'ParentClass',
     methods: [],
-    classConstructor: undefined,
   };
 
   it('should create a valid class with no functions and no constructor', () => {
@@ -69,7 +70,6 @@ describe('creating valid classes', () => {
       name: 'CustomClass',
       superClass: parentClass.name,
       methods: [],
-      classConstructor: undefined,
     };
 
     const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
@@ -83,7 +83,6 @@ describe('creating valid classes', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClass',
       methods: [],
-      classConstructor: undefined,
     };
 
     const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
@@ -112,7 +111,6 @@ describe('create namespaces', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClassNamespace',
       methods: [],
-      classConstructor: undefined,
     };
     const customNamespaceForClass: ICustomNamespace = {
       name: 'CustomClassNamespace',
@@ -152,7 +150,6 @@ describe('creating Routes ', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClassWithNamespace',
       methods: [],
-      classConstructor: undefined,
     };
     const customNamespaceForClass: ICustomNamespace = {
       name: 'CustomNamespaceWithClass',
@@ -175,7 +172,6 @@ describe('creating Routes ', () => {
     const classDefinition2: ICustomClass = {
       name: 'CustomClass2',
       methods: [],
-      classConstructor: undefined,
     };
     const customNamespaceForClass2: ICustomNamespace = {
       name: 'CustomNamespace2',
@@ -189,7 +185,6 @@ describe('creating Routes ', () => {
     const classDefinition1: ICustomClass = {
       name: 'CustomClass1',
       methods: [],
-      classConstructor: undefined,
     };
     const customNamespaceForClass1: ICustomNamespace = {
       name: 'CustomNamespace1',
@@ -238,16 +233,39 @@ describe('importing classes ', () => {
   });
 
   it('should import RouteSegment and EndStateRouteSegment', () => {
+    const imports = Object.keys(models);
     const file = addImportsIntoSourceFile(sourceFile);
 
     expect(file.getImportStringLiterals()).toHaveLength(1);
     expect(file.getImportStringLiterals()[0].getLiteralValue()).toEqual('../models');
 
     expect(file.getImportDeclarations()).toHaveLength(1);
-    expect(file.getImportDeclarations()[0].getNamedImports()).toHaveLength(2);
-    expect(file.getImportDeclarations()[0].getNamedImports()[0].getName()).toEqual('RouteSegment');
-    expect(file.getImportDeclarations()[0].getNamedImports()[1].getName()).toEqual('EndStateRouteSegment');
-    expect(file.getImportDeclarations()[0].getKindName());
+    expect(file.getImportDeclarations()[0].getNamedImports()).toHaveLength(imports.length);
+    file
+      .getImportDeclarations()[0]
+      .getNamedImports()
+      .forEach((nameImport) => {
+        expect(imports).toContain(nameImport.getName());
+      });
+  });
+});
+
+describe('creating variables ', () => {
+  let sourceFile: SourceFile;
+
+  beforeEach(() => {
+    sourceFile = project.createSourceFile(`route-classes.ts`, undefined, { overwrite: true });
+  });
+
+  it('should create exported const variable', () => {
+    const variableName = 'variableName';
+    const initializer = 'CustomClass.from()';
+    createExportedVariable(sourceFile, variableName, initializer);
+
+    expect(sourceFile.getVariableDeclarations()).toHaveLength(1);
+    expect(sourceFile.getVariableDeclarations()[0].isExported()).toBeTruthy();
+    expect(sourceFile.getVariableDeclarations()[0].getStructure().name).toEqual(variableName);
+    expect(sourceFile.getVariableDeclarations()[0].getStructure().initializer).toEqual(initializer);
   });
 });
 
