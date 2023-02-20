@@ -15,7 +15,6 @@ export function generate(customSegmentStructure: ICustomSegmentStructure, output
   addImportsIntoSourceFile(file);
 
   file.formatText();
-  // tslint:disable-next-line:no-console
   console.log(file.getText());
   file.save();
 }
