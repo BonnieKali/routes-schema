@@ -13,7 +13,6 @@ export function generate(customSegmentStructure: ICustomSegmentStructure, output
 
   const file = createRoutes(sourceFile, customSegmentStructure);
   file.formatText();
-  // tslint:disable-next-line:no-console
   console.log(file.getText());
   file.save();
 }
