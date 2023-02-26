@@ -18,3 +18,5 @@ Below are a list of paths you should not include within the schema e.g. /**build
 2. **(G|g)et(N|n)ame, (G|g)et-(N|n)ame, (G|g)et\_(N|n)ame** this will conflict with our _.getName()_ method.
 3. **withQueryParam** this will confilct with our _.withQueryParam(arg)_ method.
 4. **withQueryParams** this will confilct with our _.withQueryParam(args)_ method.
+
+You also cannot have conflicting names with input variables because method overloading is not a feature of typescript e.g.

@@ -5,13 +5,23 @@ import {
   ModuleDeclarationKind,
   Project,
   SourceFile,
+  VariableDeclarationKind,
 } from 'ts-morph';
+import * as models from './models';
 
-export function generate(customSegmentStructure: ICustomSegmentStructure, outputFile: string) {
+export function generate(
+  customSegmentStructure: ICustomSegmentStructure,
+  outputFile: string,
+  rootRouteName = 'RootRoute',
+) {
   const project = new Project();
   const sourceFile = project.createSourceFile(outputFile, undefined, { overwrite: true });
 
   const file = createRoutes(sourceFile, customSegmentStructure);
+
+  const className = customSegmentStructure.class.name;
+  createExportedVariable(file, rootRouteName, `${className}.from()`, className);
+
   addImportsIntoSourceFile(file);
 
   file.formatText();
@@ -19,9 +29,17 @@ export function generate(customSegmentStructure: ICustomSegmentStructure, output
   file.save();
 }
 
+export function createExportedVariable(file: SourceFile, variableName: string, initializer: string, type: string) {
+  file.addVariableStatement({
+    declarationKind: VariableDeclarationKind.Const,
+    declarations: [{ name: variableName, initializer: initializer, type: type }],
+    isExported: true,
+  });
+}
+
 export function addImportsIntoSourceFile(sourceFile: SourceFile) {
   const importLocation = '../models';
-  const classNames = ['RouteSegment', 'EndStateRouteSegment'];
+  const classNames = Object.keys(models);
   addImport(sourceFile, classNames, importLocation);
   return sourceFile;
 }
@@ -67,18 +85,6 @@ export function createClass(moduleDeclaration: ModuleDeclaration | SourceFile, c
   if (classDefinition.superClass) {
     classDeclaration.setExtends(classDefinition.superClass);
   }
-  if (classDefinition.classConstructor) {
-    const con = classDeclaration.addConstructor();
-    con.addParameters(
-      classDefinition.classConstructor.args.map((arg) => {
-        return {
-          name: arg,
-          type: 'any',
-        };
-      }),
-    );
-    con.setBodyText('super();');
-  }
   classDeclaration.setIsExported(true);
   classDefinition.methods.forEach((method) => createMethod(classDeclaration, method));
   return classDeclaration;
@@ -113,13 +119,12 @@ export function createSegmentStructure(
 
 export interface ICustomMethod {
   name: string;
-  returnType?: string; // constructors do not have return types
+  returnType: string;
   args: string[];
 }
 export interface ICustomClass {
   name: string;
   methods: ICustomMethod[];
-  classConstructor?: ICustomMethod;
   superClass?: string;
 }
 export interface ICustomNamespace {
