@@ -257,15 +257,19 @@ describe('creating variables ', () => {
     sourceFile = project.createSourceFile(`route-classes.ts`, undefined, { overwrite: true });
   });
 
-  it('should create exported const variable', () => {
+  it('should create exported const variable with type', () => {
     const variableName = 'variableName';
     const initializer = 'CustomClass.from()';
-    createExportedVariable(sourceFile, variableName, initializer);
+    const type = 'CustomType';
+    createExportedVariable(sourceFile, variableName, initializer, type);
 
     expect(sourceFile.getVariableDeclarations()).toHaveLength(1);
+
+    const variableDeclaration = sourceFile.getVariableDeclarations()[0];
     expect(sourceFile.getVariableDeclarations()[0].isExported()).toBeTruthy();
-    expect(sourceFile.getVariableDeclarations()[0].getStructure().name).toEqual(variableName);
-    expect(sourceFile.getVariableDeclarations()[0].getStructure().initializer).toEqual(initializer);
+    expect(variableDeclaration.getStructure().name).toEqual(variableName);
+    expect(variableDeclaration.getStructure().initializer).toEqual(initializer);
+    expect(variableDeclaration.getStructure().type).toEqual(type);
   });
 });
 

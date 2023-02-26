@@ -19,7 +19,9 @@ export function generate(
 
   const file = createRoutes(sourceFile, customSegmentStructure);
 
-  createExportedVariable(file, rootRouteName, `${customSegmentStructure.class.name}.from()`);
+  const className = customSegmentStructure.class.name;
+  createExportedVariable(file, rootRouteName, `${className}.from()`, className);
+
   addImportsIntoSourceFile(file);
 
   file.formatText();
@@ -27,15 +29,10 @@ export function generate(
   file.save();
 }
 
-export function createExportedVariable(file: SourceFile, variableName: string, initializer: string) {
+export function createExportedVariable(file: SourceFile, variableName: string, initializer: string, type: string) {
   file.addVariableStatement({
     declarationKind: VariableDeclarationKind.Const,
-    declarations: [
-      {
-        name: variableName,
-        initializer: initializer,
-      },
-    ],
+    declarations: [{ name: variableName, initializer: initializer, type: type }],
     isExported: true,
   });
 }
