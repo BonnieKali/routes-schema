@@ -76,7 +76,7 @@ describe('creating valid classes', () => {
     const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
 
     expect(classDeclaration.getName()).toBe(classDefinition.name);
-    expect(classDeclaration.print()).toContain(`extends ${classDefinition.superClass!.name}`);
+    expect(classDeclaration.print()).toContain(`extends ${classDefinition.superClass!.name} {`);
     expect(classDeclaration.getMethods()).toHaveLength(0);
   });
 
@@ -91,7 +91,7 @@ describe('creating valid classes', () => {
 
     expect(classDeclaration.getName()).toBe(classDefinition.name);
     expect(classDeclaration.print()).toContain(
-      `extends ${classDefinition.superClass!.name}<'${superClass.types![0]}' | '${superClass.types![1]}'>`,
+      `extends ${classDefinition.superClass!.name}<'${superClass.types![0]}' | '${superClass.types![1]}'> {`,
     );
     expect(classDeclaration.getMethods()).toHaveLength(0);
   });
