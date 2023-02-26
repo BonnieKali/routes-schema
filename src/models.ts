@@ -32,15 +32,15 @@ export abstract class EndStateRouteSegment extends RouteSegment {
   }
 }
 
-export abstract class QueryParamsRouteSegment extends EndStateRouteSegment {
-  private queryParams: { [key: string]: string } = {};
+export abstract class QueryParamsRouteSegment<T extends string> extends EndStateRouteSegment {
+  private queryParams: { [key in T]+?: string } = {};
 
-  public withParams(queryParams: { [key: string]: string }): this {
+  public withParams(queryParams: { [key in T]+?: string }): this {
     this.queryParams = { ...this.queryParams, ...queryParams };
     return this;
   }
 
-  public withParam(key: string, value: string): this {
+  public withParam(key: T, value: string): this {
     this.queryParams[key] = value;
     return this;
   }
@@ -50,6 +50,8 @@ export abstract class QueryParamsRouteSegment extends EndStateRouteSegment {
     if (Object.keys(this.queryParams).length === 0) {
       return buildRoute;
     }
+
+    // @ts-ignore
     return buildRoute + '?' + new URLSearchParams(this.queryParams).toString();
   }
 }

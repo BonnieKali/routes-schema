@@ -6,6 +6,8 @@
 - Add verification step for user-defined routes.
   Create dictionary of all accessible methods from out models class and check for collisions after
   running them through the format method.
+- We need to allow duplicate query params with the same key for accepting lists:
+  - https://stackoverflow.com/questions/2602043/rest-api-best-practice-how-to-accept-list-of-parameter-values-as-input
 - Create cli tool for generating routes
 - Publish to npm
 - Make pretty README
