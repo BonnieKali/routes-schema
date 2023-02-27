@@ -32,15 +32,15 @@ export abstract class EndStateRouteSegment extends RouteSegment {
   }
 }
 
-export abstract class QueryParamsRouteSegment<T extends string> extends EndStateRouteSegment {
-  private queryParams: { [key in T]+?: string } = {};
+export abstract class QueryParamsRouteSegment<K extends string> extends EndStateRouteSegment {
+  private queryParams: Record<K, string> = {} as Record<K, string>;
 
-  public withParams(queryParams: { [key in T]+?: string }): this {
+  public withParams(queryParams: Partial<Record<K, string>>): this {
     this.queryParams = { ...this.queryParams, ...queryParams };
     return this;
   }
 
-  public withParam(key: T, value: string): this {
+  public withParam(key: K, value: string): this {
     this.queryParams[key] = value;
     return this;
   }
@@ -51,7 +51,16 @@ export abstract class QueryParamsRouteSegment<T extends string> extends EndState
       return buildRoute;
     }
 
-    // @ts-ignore
-    return buildRoute + '?' + new URLSearchParams(this.queryParams).toString();
+    const definedQueryParams = { ...this.queryParams };
+    Object.keys(definedQueryParams)
+      .filter((k) => k in definedQueryParams)
+      .forEach((k) => {
+        const key = k as K;
+        if (definedQueryParams[key] === undefined) {
+          delete definedQueryParams[key];
+        }
+      });
+
+    return buildRoute + '?' + new URLSearchParams(definedQueryParams).toString();
   }
 }
