@@ -11,8 +11,17 @@ export const exampleRoutes: IUserDefinedRoute[] = [
   { route: '/auth/{userId}/login' },
   { route: '/auth/register' },
   { route: '/profile', queryParameters: ['id'] },
+  { route: '/profile', queryParameters: ['hello'] }, // todo have parser merge the queryParameters and remove duplicates
   { route: '/profile/dashboard' },
   { route: '/profile/dashboard/today' },
+  { route: '/profile/dashboard/today/yesterday' },
+  { route: '/profile/dashboard/{today}' },
+  { route: '/profile/hello/today/yesterday' },
+  { route: '/profile/hello/{today}' },
+  { route: '/profile/dashboard/{today}/today' },
+  // todo support below
+  { route: '/profile/email:send' },
+  { route: '/profile/email/{emailId}:send' },
 ];
 
 /*
