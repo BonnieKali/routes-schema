@@ -9,6 +9,7 @@ import {
   ICustomMethod,
   ICustomNamespace,
   ICustomSegmentStructure,
+  ICustomSuperClass,
 } from '../generator.compiler';
 import {
   ClassDeclaration,
@@ -60,22 +61,38 @@ describe('creating valid functions', () => {
 });
 
 describe('creating valid classes', () => {
-  const parentClass: ICustomClass = {
+  const superClass: ICustomSuperClass = {
     name: 'ParentClass',
-    methods: [],
+    types: ['type1', 'type2'],
   };
 
-  it('should create a valid class with no functions and no constructor', () => {
+  it('should create a valid class with a superclass without types', () => {
     const classDefinition: ICustomClass = {
       name: 'CustomClass',
-      superClass: parentClass.name,
+      superClass: { ...superClass, types: undefined },
       methods: [],
     };
 
     const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
 
     expect(classDeclaration.getName()).toBe(classDefinition.name);
-    expect(classDeclaration.print()).toContain(`extends ${classDefinition.superClass}`);
+    expect(classDeclaration.print()).toContain(`extends ${classDefinition.superClass!.name} {`);
+    expect(classDeclaration.getMethods()).toHaveLength(0);
+  });
+
+  it('should create a valid class with a superclass with types', () => {
+    const classDefinition: ICustomClass = {
+      name: 'CustomClass',
+      superClass: superClass,
+      methods: [],
+    };
+
+    const classDeclaration: ClassDeclaration = createClass(sourceFile, classDefinition);
+
+    expect(classDeclaration.getName()).toBe(classDefinition.name);
+    expect(classDeclaration.print()).toContain(
+      `extends ${classDefinition.superClass!.name}<'${superClass.types![0]}' | '${superClass.types![1]}'> {`,
+    );
     expect(classDeclaration.getMethods()).toHaveLength(0);
   });
 

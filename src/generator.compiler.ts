@@ -61,7 +61,7 @@ export function createMethod(classDeclaration: ClassDeclaration, methodDefinitio
     methodDefinition.args.map((arg) => {
       return {
         name: arg,
-        type: 'any',
+        type: 'string',
       };
     }),
   );
@@ -78,12 +78,22 @@ export function createMethod(classDeclaration: ClassDeclaration, methodDefinitio
   return methodDeclaration;
 }
 
+function determineSuperClass(classDeclaration: ClassDeclaration, superClass: ICustomSuperClass): ClassDeclaration {
+  let type = '';
+  if (superClass.types && superClass.types.length > 0) {
+    type = superClass.types.map((t) => `'${t}'`).join(' | ');
+    type = `<${type}>`;
+  }
+  classDeclaration.setExtends((writer) => writer.writeLine(`${superClass.name}${type}`));
+  return classDeclaration;
+}
+
 export function createClass(moduleDeclaration: ModuleDeclaration | SourceFile, classDefinition: ICustomClass) {
   const classDeclaration = moduleDeclaration.addClass({
     name: classDefinition.name,
   });
   if (classDefinition.superClass) {
-    classDeclaration.setExtends(classDefinition.superClass);
+    determineSuperClass(classDeclaration, classDefinition.superClass);
   }
   classDeclaration.setIsExported(true);
   classDefinition.methods.forEach((method) => createMethod(classDeclaration, method));
@@ -122,10 +132,14 @@ export interface ICustomMethod {
   returnType: string;
   args: string[];
 }
+export interface ICustomSuperClass {
+  name: string;
+  types?: string[];
+}
 export interface ICustomClass {
   name: string;
   methods: ICustomMethod[];
-  superClass?: string;
+  superClass?: ICustomSuperClass;
 }
 export interface ICustomNamespace {
   name: string;
