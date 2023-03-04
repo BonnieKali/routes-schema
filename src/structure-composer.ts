@@ -1,4 +1,10 @@
-import { ICustomClass, ICustomMethod, ICustomNamespace, ICustomSegmentStructure } from './generator.compiler';
+import {
+  ICustomClass,
+  ICustomMethod,
+  ICustomNamespace,
+  ICustomSegmentStructure,
+  ICustomSuperClass,
+} from './generator.compiler';
 import { IStructureNode } from './structure';
 import { EndStateRouteSegment, QueryParamsRouteSegment, RouteSegment } from './models';
 
@@ -38,12 +44,12 @@ function collectMethods(node: IStructureNode): ICustomMethod[] {
   });
 }
 
-function determineSuperClass(node: IStructureNode): string {
+function determineSuperClass(node: IStructureNode): ICustomSuperClass {
   if (node.isEndState && !!node.queryParams) {
-    return QueryParamsRouteSegment.name;
+    return { name: QueryParamsRouteSegment.name, types: node.queryParams };
   }
   if (node.isEndState) {
-    return EndStateRouteSegment.name;
+    return { name: EndStateRouteSegment.name };
   }
-  return RouteSegment.name;
+  return { name: RouteSegment.name };
 }
