@@ -14,10 +14,10 @@ class InvalidMethodNameGenerationException extends RouteSchemaException {
   }
 
   public toString() {
-    const invalidNode = `${this.path}/[${this.node.name}]`;
+    const invalidNode = `${this.path}[${this.node.name}]`;
     return `${InvalidMethodNameGenerationException.EXCEPTION_MESSAGE} 
         Invalid Path Segment: ${invalidNode}. 
-        ${InvalidMethodNameGenerationException.RESOLUTION_MESSAGE}`;
+    ${InvalidMethodNameGenerationException.RESOLUTION_MESSAGE}`;
   }
 }
 

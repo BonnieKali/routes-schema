@@ -25,30 +25,30 @@ class ReservedRouteSegmentException extends RouteSchemaException {
   }
 
   public toString() {
-    const invalidNode = `${this.path}/[${this.node.name}]`;
+    const invalidNode = `${this.path}[${this.node.name}]`;
     return `${ReservedRouteSegmentException.EXCEPTION_MESSAGE} 
         Invalid Path Segment: ${invalidNode} 
-        ${ReservedRouteSegmentException.RESOLUTION_MESSAGE} which matches this regex ${this.regex}`;
+    ${ReservedRouteSegmentException.RESOLUTION_MESSAGE} which matches this regex ${this.regex}`;
   }
 }
 
 function reservedRouteWithParamValidator(node: ISegmentNode, path: string): Optional<ReservedRouteSegmentException> {
-  if (!RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAM.test(node.name)) {
+  if (RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAM.test(node.name)) {
     return new ReservedRouteSegmentException(RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAM, path, node);
   }
 }
 function reservedRouteWithParamsValidator(node: ISegmentNode, path: string): Optional<ReservedRouteSegmentException> {
-  if (!RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAMS.test(node.name)) {
+  if (RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAMS.test(node.name)) {
     return new ReservedRouteSegmentException(RESERVED_ROUTE_KEYWORD_REGEX.WITH_PARAMS, path, node);
   }
 }
 function reservedRouteGetNameValidator(node: ISegmentNode, path: string): Optional<ReservedRouteSegmentException> {
-  if (!RESERVED_ROUTE_KEYWORD_REGEX.GET_NAME.test(node.name)) {
+  if (RESERVED_ROUTE_KEYWORD_REGEX.GET_NAME.test(node.name)) {
     return new ReservedRouteSegmentException(RESERVED_ROUTE_KEYWORD_REGEX.GET_NAME, path, node);
   }
 }
 function reservedRouteBuildValidator(node: ISegmentNode, path: string): Optional<ReservedRouteSegmentException> {
-  if (!RESERVED_ROUTE_KEYWORD_REGEX.BUILD.test(node.name)) {
+  if (RESERVED_ROUTE_KEYWORD_REGEX.BUILD.test(node.name)) {
     return new ReservedRouteSegmentException(RESERVED_ROUTE_KEYWORD_REGEX.BUILD, path, node);
   }
 }

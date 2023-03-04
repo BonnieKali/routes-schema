@@ -14,10 +14,10 @@ class InvalidUrlSegmentException extends RouteSchemaException {
   }
 
   public toString() {
-    const invalidNode = `${this.path}/[${this.node.name}]`;
+    const invalidNode = `${this.path}[${this.node.name}]`;
     return `${InvalidUrlSegmentException.EXCEPTION_MESSAGE} 
         Invalid Path Segment: ${invalidNode}. 
-        ${InvalidUrlSegmentException.RESOLUTION_MESSAGE}`;
+    ${InvalidUrlSegmentException.RESOLUTION_MESSAGE}`;
   }
 }
 
