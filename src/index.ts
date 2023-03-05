@@ -30,4 +30,4 @@ printTree(segmentTree);
 
 const structureTree = mapToStructureTree(segmentTree);
 const schema = composeSchema(structureTree);
-generate(schema, 'src/generated/generated.ts');
+// generate(schema, 'src/generated/generated.ts');

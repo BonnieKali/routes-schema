@@ -1,9 +1,9 @@
 import { ISegmentNode } from './parser';
-import { RESERVED_ROUTES_VALIDATORS } from './exception/reserved-route-segment.exception';
-import { INVALID_URL_VALIDATORS } from './exception/invalid-url-segment.exception';
-import { RouteSchemaException, RouteSchemaValidator } from './exception/route-schema.exception';
-import { PATH_VARIABLE_COLLISION_VALIDATORS } from './exception/path-variable-collision.exception';
-import { INVALID_METHOD_NAME_GENERATION_VALIDATORS } from './exception/invalid-method-name.exception';
+import { RouteSchemaException, RouteSchemaValidator } from './validation/route-schema.exception';
+import { RESERVED_ROUTES_VALIDATORS } from './validation/reservedroutesegment/reserved-route-segment.validator';
+import { INVALID_URL_VALIDATORS } from './validation/invalidurlsegment/invalid-url-segment.validator';
+import { PATH_VARIABLE_COLLISION_VALIDATORS } from './validation/pathvariablecollision/path-variable-collision.validator';
+import { INVALID_METHOD_NAME_GENERATION_VALIDATORS } from './validation/invalidmethodname/invalid-method-name.validator';
 
 const EXCEPTION_SEPARATOR = '----------';
 
